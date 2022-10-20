@@ -1,0 +1,480 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.60.0-nightly",
+            "commitHash": "e646f3d2a9541952310778288854943678738ea9",
+            "commitDate": "2022-02-10",
+            "channel": "Nightly",
+            "short": "rustc 1.60.0-nightly (e646f3d2a 2022-02-10)"
+        },
+        "contractCrate": {
+            "name": "kharita-sc-staking",
+            "version": "0.0.0",
+            "git_version": "0bb7fb9"
+        },
+        "framework": {
+            "name": "elrond-wasm",
+            "version": "0.35.0"
+        }
+    },
+    "name": "MainModule",
+    "constructor": {
+        "inputs": [
+            {
+                "name": "day0_start_time_opt",
+                "type": "optional<u64>",
+                "multi_arg": true
+            },
+            {
+                "name": "unstake_penalty_opt",
+                "type": "optional<u64>",
+                "multi_arg": true
+            },
+            {
+                "name": "disabled_opt",
+                "type": "optional<u8>",
+                "multi_arg": true
+            },
+            {
+                "name": "sft_collection_token_id_opt",
+                "type": "optional<TokenIdentifier>",
+                "multi_arg": true
+            },
+            {
+                "name": "reward_token_id_opt",
+                "type": "optional<TokenIdentifier>",
+                "multi_arg": true
+            }
+        ],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "stakeSfts",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "unstakeSfts",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "sfts_to_unstake",
+                    "type": "variadic<EsdtTokenPayment>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "claimReward",
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "swap",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "getStakedTokens",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<tuple<TokenIdentifier,u64>>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getStakedQuantity",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getSecuredRewards",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getStakeTime",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getLastClaimTime",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getSftCollectionTokenId",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
+            "name": "getReferenceTime",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getUnstakePenalty",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getDisabled",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "secureRewards",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "user_address",
+                    "type": "Address"
+                },
+                {
+                    "name": "now",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "computeReward",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "sfts",
+                    "type": "List<EsdtTokenPayment>"
+                },
+                {
+                    "name": "user_address",
+                    "type": "Address"
+                },
+                {
+                    "name": "now",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "computeTotalReward",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user_address",
+                    "type": "Address"
+                },
+                {
+                    "name": "now",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getDaysSinceStake",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "user_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getDaysDiff",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "first",
+                    "type": "u64"
+                },
+                {
+                    "name": "second",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "findSfts",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "nfts",
+                    "type": "List<EsdtTokenPayment>"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<EsdtTokenPayment>"
+                }
+            ]
+        },
+        {
+            "name": "setupCollection",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonces",
+                    "type": "variadic<NoncesToNftType>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setNftTypeToSftNonce",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "types_and_nonces",
+                    "type": "variadic<NftTypeToSftNonce>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setSftNonceToReward",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "types_and_rewards",
+                    "type": "variadic<SftNonceToReward>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "enableStaking",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "disableStaking",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        }
+    ],
+    "events": [],
+    "hasCallback": false,
+    "types": {
+        "EsdtTokenPayment": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                }
+            ]
+        },
+        "NftTypeToSftNonce": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "nft_type",
+                    "type": "u32"
+                },
+                {
+                    "name": "sft_nonce",
+                    "type": "u64"
+                }
+            ]
+        },
+        "NoncesToNftType": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "nonces",
+                    "type": "List<u64>"
+                },
+                {
+                    "name": "nft_type",
+                    "type": "u32"
+                }
+            ]
+        },
+        "SftNonceToReward": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "sft_nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "daily_reward",
+                    "type": "BigUint"
+                }
+            ]
+        }
+    }
+}
