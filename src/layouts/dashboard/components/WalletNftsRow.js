@@ -2,14 +2,27 @@ import useAccountNfts from "queries/useAccountNfts";
 import NftsRow from "./NftsRow";
 import contract from "contract/contract";
 import { TokenPayment } from "@elrondnetwork/erdjs";
-import { useGetAccount } from "@elrondnetwork/dapp-core/hooks";
+import { useGetAccount, useTrackTransactionStatus } from "@elrondnetwork/dapp-core/hooks";
 import { Address } from "@elrondnetwork/erdjs";
 
 import { sendTransactions } from "@elrondnetwork/dapp-core/services";
+import { useState } from "react";
+import useStakedNfts from "queries/useStakedNfts";
 
 export default function WalletNftsRow() {
-  const { data, isLoading, isError } = useAccountNfts();
+  const { data, isLoading, isError, refetch } = useAccountNfts(process.env.REACT_APP_NFT_COLLECTION);
+  const { refetch: refetchStaked } = useStakedNfts();
+
   const { address } = useGetAccount();
+  const [sid, setsid] = useState();
+  useTrackTransactionStatus({
+    transactionId: sid,
+    onSuccess: () => {
+      refetchStaked();
+      refetch();
+    },
+  });
+
   const onStake = async (nfts) => {
     const totals = {};
     nfts.forEach((n) => {
@@ -33,23 +46,25 @@ export default function WalletNftsRow() {
 
     const transactionFinal = transaction.buildTransaction();
 
-    await sendTransactions({
+    const { sessionId } = await sendTransactions({
       transactions: [transactionFinal],
       transactionsDisplayInfo: {
         processingMessage: "Staking",
         errorMessage: "An error has occured during the stake",
-        successMessage: "Transaction successful",
+        successMessage: "Staking successful",
         transactionDuration: 10000,
       },
     });
+
+    setsid(sessionId);
   };
 
   if (isLoading) {
-    return "Loading";
+    return <span>Loading</span>;
   }
 
   if (isError) {
-    return "Error loading walelt NFTs";
+    return <span>Error loading walelt NFTs</span>;
   }
 
   return (

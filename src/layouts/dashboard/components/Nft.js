@@ -31,7 +31,7 @@ export default function Nft({
       <CardContent>
         <Stack justifyContent="space-between">
           <SoftTypography variant="h5">{name}</SoftTypography>
-          {reward ? <SoftTypography variant="body2">Rewards: {reward} REALM</SoftTypography> : null}
+          {/* {reward ? <SoftTypography variant="body2">Rewards: {reward} REALM</SoftTypography> : null} */}
         </Stack>
       </CardContent>
       <CardActions>

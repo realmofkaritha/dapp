@@ -1,19 +1,31 @@
-import { useGetAccount } from "@elrondnetwork/dapp-core/hooks";
+import { useTrackTransactionStatus } from "@elrondnetwork/dapp-core/hooks";
 import { sendTransactions } from "@elrondnetwork/dapp-core/services";
-import { Address, TokenPayment } from "@elrondnetwork/erdjs/out";
 import SoftButton from "components/SoftButton";
 import contract from "contract/contract";
+import useAccountNfts from "queries/useAccountNfts";
 import useStakedNfts from "queries/useStakedNfts";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import NftsRow from "./NftsRow";
 
 export default function StakedNftsRow() {
-  const { data, isLoading, isError } = useStakedNfts();
-  const { address } = useGetAccount();
+  const { data, isLoading, isError, refetch } = useStakedNfts();
+  const { refetch:refetchAccountNfts } = useAccountNfts(process.env.REACT_APP_NFT_COLLECTION);
+
+  const [sid, setsid] = useState();
+  useTrackTransactionStatus({transactionId: sid, onSuccess:()=>{
+    refetch();
+    refetchAccountNfts();
+  }});
+
+  const reward = data?.reward || "";
 
   const extraStakeButton = useCallback(() => {
-    return <SoftButton size="small">Claim All</SoftButton>;
-  }, []);
+    return data?.hasReward ? (
+      <SoftButton size="small" onClick={onClaim}>
+        Claim {reward}
+      </SoftButton>
+    ) : null;
+  }, [reward]);
 
   const onUnstake = async (nfts) => {
     const totals = {};
@@ -41,23 +53,41 @@ export default function StakedNftsRow() {
 
     const transactionFinal = transaction.buildTransaction();
 
+    const { sessionId } = await sendTransactions({
+      transactions: [transactionFinal],
+      transactionsDisplayInfo: {
+        processingMessage: "Unstaking",
+        errorMessage: "An error has occured during the unstake",
+        successMessage: "Unstake successful",
+        transactionDuration: 10000,
+      },
+    });
+
+    setsid(sessionId);
+  };
+
+  const onClaim = async () => {
+    const transaction = contract.methods.claimReward().withGasLimit(20_000_000).withChainID("D");
+
+    const transactionFinal = transaction.buildTransaction();
+
     await sendTransactions({
       transactions: [transactionFinal],
       transactionsDisplayInfo: {
-        processingMessage: "Staking",
-        errorMessage: "An error has occured during the stake",
-        successMessage: "Transaction successful",
+        processingMessage: "Claiming",
+        errorMessage: "An error has occured during the claim",
+        successMessage: "Claim successful",
         transactionDuration: 10000,
       },
     });
   };
 
   if (isLoading) {
-    return "Loading";
+    return <span>Loading</span>;
   }
 
   if (isError) {
-    return "Error loading staked NFTs";
+    return <span>Error loading walelt NFTs</span>;
   }
 
   return (

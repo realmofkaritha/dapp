@@ -5,6 +5,7 @@ import StakedNftsRow from "./components/StakedNftsRow";
 import WalletNftsRow from "./components/WalletNftsRow";
 
 function Dashboard() {
+
   return (
     <DashboardLayout>
       <Stack spacing={2}>

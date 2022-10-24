@@ -10,7 +10,7 @@
         "contractCrate": {
             "name": "kharita-sc-staking",
             "version": "0.0.0",
-            "git_version": "0bb7fb9"
+            "git_version": "2627b68"
         },
         "framework": {
             "name": "elrond-wasm",
@@ -230,6 +230,21 @@
             "outputs": [
                 {
                     "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "getAllUserStakedAndRewards",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "tuple<List<EsdtTokenPayment>,BigUint>"
                 }
             ]
         },

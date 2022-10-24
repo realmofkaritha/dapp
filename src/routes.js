@@ -40,6 +40,7 @@ import Dashboard from "layouts/dashboard";
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
+import Swap from "layouts/swap";
 
 const routes = [
   {
@@ -58,7 +59,7 @@ const routes = [
     key: "swap",
     path: "/swap",
     icon: <Shop size="12px" />,
-    component: <Dashboard />,
+    component: <Swap />,
     noCollapse: true,
     authenticatedRoute: true
   },
