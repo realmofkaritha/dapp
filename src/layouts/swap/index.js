@@ -1,5 +1,5 @@
 // Soft UI Dashboard React examples
-import { useGetAccount, useTrackTransactionStatus } from "@elrondnetwork/dapp-core/hooks";
+import { useGetAccount, useGetNetworkConfig, useTrackTransactionStatus } from "@elrondnetwork/dapp-core/hooks";
 import { sendTransactions } from "@elrondnetwork/dapp-core/services";
 import { Address, TokenPayment } from "@elrondnetwork/erdjs/out";
 import { Box, Typography } from "@mui/material";
@@ -10,10 +10,14 @@ import useAccountNfts from "queries/useAccountNfts";
 import { useState } from "react";
 import contract from "contract/contract";
 import SwapHoriz from "@mui/icons-material/SwapHoriz";
+import NftsRow from "layouts/dashboard/components/NftsRow";
 
 function Swap() {
   const { data, isLoading, refetch } = useAccountNfts(process.env.REACT_APP_OLD_COLLECTION);
   const { address } = useGetAccount();
+
+  const [selectedNfts, setSelectedNfts] = useState([]);
+  const network = useGetNetworkConfig();
 
   const [sid, setsid] = useState();
   useTrackTransactionStatus({
@@ -24,15 +28,18 @@ function Swap() {
   });
 
   const onSwap = async () => {
-    const payments = data.map((n) => {
-      return TokenPayment.nonFungible(n.collection, n.nonce);
+    const payments = selectedNfts.map((n) => {
+      const [identifier] = n.split("||");
+      const [a, b, nonce] = identifier.split("-");
+
+      return TokenPayment.nonFungible(`${a}-${b}`, nonce);
     });
 
     const transaction = contract.methods
       .stakeSfts([])
-      .withGasLimit(20_000_000)
+      .withGasLimit(5_000_000+payments.length*500_000)
       .withMultiESDTNFTTransfer(payments, new Address(address))
-      .withChainID("D");
+      .withChainID(network.chainID);
 
     const transactionFinal = transaction.buildTransaction();
 
@@ -57,64 +64,73 @@ function Swap() {
         sx={{ height: "80vh", overflow: "hidden" }}
         spacing={2}
       >
+        <Typography variant="h1" textAlign="center">
+          Upgrade Your Genesis
+        </Typography>
+        <Typography variant="h5" textAlign="center">
+          Join the new Era of Karitha and Upgrade your Genesis
+        </Typography>
+        <Stack direction="row" alignItems="center">
+          <Box
+            sx={({ breakpoints }) => ({
+              height: 120,
+              width: 120,
+              [breakpoints.up("sm")]: {
+                height: 200,
+                width: 200,
+              },
+            })}
+          >
+            <img
+              src="/Tavern2.png"
+              style={{ width: "100%", backgroundColor: "#e0a26d", borderRadius: 10 }}
+            />
+          </Box>
+          <SwapHoriz
+            sx={({ breakpoints }) => ({
+              fontSize: "2em !important",
+              [breakpoints.up("sm")]: { fontSize: "4em !important" },
+            })}
+          />
+          <Box
+            sx={({ breakpoints }) => ({
+              height: 120,
+              width: 120,
+              [breakpoints.up("sm")]: {
+                height: 200,
+                width: 200,
+              },
+            })}
+          >
+            <img
+              src="/Tavern1.png"
+              style={{ width: "100%", backgroundColor: "#e0a26d", borderRadius: 10 }}
+            />
+          </Box>
+        </Stack>
         {isLoading ? (
           "Loading"
-        ) : (
+        ) : data?.length > 0 ? (
           <>
-            <Typography variant="h1" textAlign="center">
-              Upgrade Your Genesis
-            </Typography>
-            <Typography variant="h5" textAlign="center">
-              Join the new Era of Karitha and Upgrade your Genesis
-            </Typography>
-            <Stack direction="row" alignItems="center">
-              <Box
-                sx={({ breakpoints }) => ({
-                  height: 120,
-                  width: 120,
-                  [breakpoints.up("sm")]: {
-                    height: 200,
-                    width: 200,
-                  },
-                })}
-              >
-                <img
-                  src="/Tavern2.png"
-                  style={{ width: "100%", backgroundColor: "#e0a26d", borderRadius: 10 }}
-                />
-              </Box>
-              <SwapHoriz
-                sx={({ breakpoints }) => ({
-                  fontSize: "2em !important",
-                  [breakpoints.up("sm")]: { fontSize: "4em !important" },
-                })}
-              />
-              <Box
-                sx={({ breakpoints }) => ({
-                  height: 120,
-                  width: 120,
-                  [breakpoints.up("sm")]: {
-                    height: 200,
-                    width: 200,
-                  },
-                })}
-              >
-                <img
-                  src="/Tavern1.png"
-                  style={{ width: "100%", backgroundColor: "#e0a26d", borderRadius: 10 }}
-                />
-              </Box>
-            </Stack>
-            {data?.length > 0 ? (
-              <>
-                <SoftButton size="large" variant="gradient" color="primary" onClick={onSwap}>
-                  Upgrade
-                </SoftButton>
-              </>
-            ) : (
-              <Typography variant="body2">You don&apos;t have any Genesis NFTs</Typography>
-            )}
+            <SoftButton
+              disabled={selectedNfts.length === 0}
+              size="large"
+              variant="gradient"
+              color="primary"
+              onClick={onSwap}
+            >
+              Upgrade
+            </SoftButton>
+            <NftsRow
+              nfts={data}
+              onChange={(nfts) => {
+                console.log(nfts);
+                setSelectedNfts(nfts);
+              }}
+            />
           </>
+        ) : (
+          <Typography variant="body2">You don&apos;t have any Genesis NFTs</Typography>
         )}
       </Stack>
     </DashboardLayout>

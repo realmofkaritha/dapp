@@ -2,7 +2,7 @@ import useAccountNfts from "queries/useAccountNfts";
 import NftsRow from "./NftsRow";
 import contract from "contract/contract";
 import { TokenPayment } from "@elrondnetwork/erdjs";
-import { useGetAccount, useTrackTransactionStatus } from "@elrondnetwork/dapp-core/hooks";
+import { useGetAccount, useGetNetworkConfig, useTrackTransactionStatus } from "@elrondnetwork/dapp-core/hooks";
 import { Address } from "@elrondnetwork/erdjs";
 
 import { sendTransactions } from "@elrondnetwork/dapp-core/services";
@@ -12,6 +12,7 @@ import useStakedNfts from "queries/useStakedNfts";
 export default function WalletNftsRow() {
   const { data, isLoading, isError, refetch } = useAccountNfts(process.env.REACT_APP_NFT_COLLECTION);
   const { refetch: refetchStaked } = useStakedNfts();
+  const network = useGetNetworkConfig();
 
   const { address } = useGetAccount();
   const [sid, setsid] = useState();
@@ -40,9 +41,9 @@ export default function WalletNftsRow() {
 
     const transaction = contract.methods
       .stakeSfts([])
-      .withGasLimit(20_000_000)
+      .withGasLimit(5_000_000+payments.length*500_000)
       .withMultiESDTNFTTransfer(payments, new Address(address))
-      .withChainID("D");
+      .withChainID(network.chainID);
 
     const transactionFinal = transaction.buildTransaction();
 

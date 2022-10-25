@@ -70,7 +70,6 @@ BasicLayout.defaultProps = {
 BasicLayout.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
-  image: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 

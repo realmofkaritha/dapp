@@ -13,6 +13,7 @@ export default function NftsRow({
   nftActionButtonTitle,
   extraActionButtons,
   selectedAction,
+  onChange,
 }) {
   const [firstRowNftsMax, setFirstRowNftsMax] = useState(4);
   const [showRest, setShowRest] = useState(false);
@@ -51,6 +52,10 @@ export default function NftsRow({
   };
 
   useEffect(() => {
+    onChange?.(selectedNfts);
+  }, [selectedNfts]);
+
+  useEffect(() => {
     function hanleResize() {
       if (window.innerWidth < breakpoints.values.sm) {
         setFirstRowNftsMax(4);
@@ -81,13 +86,15 @@ export default function NftsRow({
           mb={2}
           spacing={2}
         >
-          <SoftButton
-            size="small"
-            sx={{ visibility: selectedNfts.length ? "visible" : "hidden" }}
-            onClick={handleSelectedAction}
-          >
-            {actionButtonTitle.replace("{{n}}", selectedNfts.length)}
-          </SoftButton>
+          {actionButtonTitle ? (
+            <SoftButton
+              size="small"
+              sx={{ visibility: selectedNfts.length ? "visible" : "hidden" }}
+              onClick={handleSelectedAction}
+            >
+              {actionButtonTitle.replace("{{n}}", selectedNfts.length)}
+            </SoftButton>
+          ) : null}
           {extraActionButtons?.() || null}
           <SoftButton size="small" onClick={handleSelectAll}>
             {selectedNfts.length === nfts.length ? "Deselect All" : "Select All"}

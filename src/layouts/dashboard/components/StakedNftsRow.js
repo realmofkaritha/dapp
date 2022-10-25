@@ -1,4 +1,4 @@
-import { useTrackTransactionStatus } from "@elrondnetwork/dapp-core/hooks";
+import { useGetNetworkConfig, useTrackTransactionStatus } from "@elrondnetwork/dapp-core/hooks";
 import { sendTransactions } from "@elrondnetwork/dapp-core/services";
 import SoftButton from "components/SoftButton";
 import contract from "contract/contract";
@@ -9,13 +9,17 @@ import NftsRow from "./NftsRow";
 
 export default function StakedNftsRow() {
   const { data, isLoading, isError, refetch } = useStakedNfts();
-  const { refetch:refetchAccountNfts } = useAccountNfts(process.env.REACT_APP_NFT_COLLECTION);
+  const { refetch: refetchAccountNfts } = useAccountNfts(process.env.REACT_APP_NFT_COLLECTION);
+  const network = useGetNetworkConfig();
 
   const [sid, setsid] = useState();
-  useTrackTransactionStatus({transactionId: sid, onSuccess:()=>{
-    refetch();
-    refetchAccountNfts();
-  }});
+  useTrackTransactionStatus({
+    transactionId: sid,
+    onSuccess: () => {
+      refetch();
+      refetchAccountNfts();
+    },
+  });
 
   const reward = data?.reward || "";
 
@@ -48,8 +52,8 @@ export default function StakedNftsRow() {
 
     const transaction = contract.methods
       .unstakeSfts(payments)
-      .withGasLimit(20_000_000)
-      .withChainID("D");
+      .withGasLimit(5_000_000 + payments.length * 500_000)
+      .withChainID(network.chainID);
 
     const transactionFinal = transaction.buildTransaction();
 
@@ -67,7 +71,10 @@ export default function StakedNftsRow() {
   };
 
   const onClaim = async () => {
-    const transaction = contract.methods.claimReward().withGasLimit(20_000_000).withChainID("D");
+    const transaction = contract.methods
+      .claimReward()
+      .withGasLimit(7_000_000)
+      .withChainID(network.chainID);
 
     const transactionFinal = transaction.buildTransaction();
 

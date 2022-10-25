@@ -31,6 +31,7 @@ const getNftsData = async (apiAddress, identifiers) => {
 export default function useStakedNfts() {
   const {
     network: { apiAddress },
+    chainID,
   } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
   const provider = new ProxyNetworkProvider(apiAddress);
@@ -39,7 +40,7 @@ export default function useStakedNfts() {
     async () => {
       const query = contract.methods
         .getAllUserStakedAndRewards([address])
-        .withChainID("D")
+        .withChainID(chainID)
         .buildQuery();
       const queryResponse = await provider.queryContract(query);
       const endpointDef = contract.getEndpoint("getAllUserStakedAndRewards");
