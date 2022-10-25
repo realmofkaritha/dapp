@@ -1,3 +1,5 @@
+import rgba from "assets/theme/functions/rgba";
+
 /**
 =========================================================
 * Soft UI Dashboard React - v4.0.0
@@ -22,14 +24,17 @@ function collapseItem(theme, ownerState) {
   const { pxToRem } = functions;
 
   return {
-    background: active && transparentSidenav ? white.main : transparent.main,
-    color: active ? dark.main : text.main,
+    background: active && transparentSidenav ? "rgba(255,255,255, 0.1)" : transparent.main,
+    "&:hover": {
+      background: "rgba(255,255,255, 0.1)",
+    },
+    color: active ? white.main : white.main,
     display: "flex",
     alignItems: "center",
     width: "100%",
     padding: `${pxToRem(10.8)} ${pxToRem(12.8)} ${pxToRem(10.8)} ${pxToRem(16)}`,
-    margin: `0 ${pxToRem(16)}`,
-    borderRadius: borderRadius.md,
+    margin: `4px ${pxToRem(16)}`,
+    borderRadius: borderRadius.xxl,
     cursor: "pointer",
     userSelect: "none",
     whiteSpace: "nowrap",
@@ -55,49 +60,22 @@ function collapseIconBox(theme, ownerState) {
   const { active, transparentSidenav, color } = ownerState;
 
   const { white, info, light, gradients } = palette;
-  const { md } = boxShadows;
   const { borderRadius } = borders;
   const { pxToRem } = functions;
 
   return {
-    background: () => {
-      if (active) {
-        return color === "default" ? info.main : palette[color].main;
-      }
-
-      return light.main;
-    },
     minWidth: pxToRem(32),
     minHeight: pxToRem(32),
     borderRadius: borderRadius.md,
     display: "grid",
     placeItems: "center",
-    boxShadow: md,
     transition: transitions.create("margin", {
       easing: transitions.easing.easeInOut,
       duration: transitions.duration.standard,
     }),
 
-    [breakpoints.up("xl")]: {
-      background: () => {
-        let background;
-
-        if (!active) {
-          background = transparentSidenav ? white.main : light.main;
-        } else if (color === "default") {
-          background = info.main;
-        } else if (color === "warning") {
-          background = gradients.warning.main;
-        } else {
-          background = palette[color].main;
-        }
-
-        return background;
-      },
-    },
-
     "& svg, svg g": {
-      fill: active ? white.main : gradients.dark.state,
+      fill: white.main,
     },
   };
 }
@@ -128,7 +106,7 @@ function collapseText(theme, ownerState) {
 
     "& span": {
       fontWeight: active ? fontWeightMedium : fontWeightRegular,
-      color: active ? theme.palette.dark.main: theme.palette.gradients.light.main,
+      color: active ? theme.palette.light.main : theme.palette.light.main,
       fontSize: size.sm,
       lineHeight: 0,
     },

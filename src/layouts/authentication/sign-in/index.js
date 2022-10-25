@@ -3,8 +3,6 @@ import SoftButton from "components/SoftButton";
 // Authentication layout components
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 
-// Images
-import curved9 from "assets/images/curved-images/curved-6.jpg";
 import {
   ExtensionLoginButton,
   LedgerLoginButton,
@@ -40,7 +38,7 @@ function SignIn() {
   }, [isLoggedIn]);
 
   return (
-    <BasicLayout title="Karitha" description="Login to access our DApp" image={curved9}>
+    <BasicLayout title="Karitha" description="Login to access our DApp">
       <Stack spacing={1}>
         <UnsetWalletConnectLoginButton callbackRoute="/" isWalletConnectV2={true}>
           <SoftButton component="span" fullWidth color="primary">

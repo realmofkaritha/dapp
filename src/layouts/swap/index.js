@@ -2,19 +2,19 @@
 import { useGetAccount, useTrackTransactionStatus } from "@elrondnetwork/dapp-core/hooks";
 import { sendTransactions } from "@elrondnetwork/dapp-core/services";
 import { Address, TokenPayment } from "@elrondnetwork/erdjs/out";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import SoftButton from "components/SoftButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import useAccountNfts from "queries/useAccountNfts";
 import { useState } from "react";
 import contract from "contract/contract";
+import SwapHoriz from "@mui/icons-material/SwapHoriz";
 
 function Swap() {
   const { data, isLoading, refetch } = useAccountNfts(process.env.REACT_APP_OLD_COLLECTION);
   const { address } = useGetAccount();
-  console.log(data?.length);
-  console.log(data);
+
   const [sid, setsid] = useState();
   useTrackTransactionStatus({
     transactionId: sid,
@@ -61,17 +61,58 @@ function Swap() {
           "Loading"
         ) : (
           <>
-            <Typography variant="h2">Swap your old NFTs</Typography>
-            <Typography>We&apos;ve decided to upgrade our NFTs</Typography>
+            <Typography variant="h1" textAlign="center">
+              Upgrade Your Genesis
+            </Typography>
+            <Typography variant="h5" textAlign="center">
+              Join the new Era of Karitha and Upgrade your Genesis
+            </Typography>
+            <Stack direction="row" alignItems="center">
+              <Box
+                sx={({ breakpoints }) => ({
+                  height: 120,
+                  width: 120,
+                  [breakpoints.up("sm")]: {
+                    height: 200,
+                    width: 200,
+                  },
+                })}
+              >
+                <img
+                  src="/Tavern2.png"
+                  style={{ width: "100%", backgroundColor: "#e0a26d", borderRadius: 10 }}
+                />
+              </Box>
+              <SwapHoriz
+                sx={({ breakpoints }) => ({
+                  fontSize: "2em !important",
+                  [breakpoints.up("sm")]: { fontSize: "4em !important" },
+                })}
+              />
+              <Box
+                sx={({ breakpoints }) => ({
+                  height: 120,
+                  width: 120,
+                  [breakpoints.up("sm")]: {
+                    height: 200,
+                    width: 200,
+                  },
+                })}
+              >
+                <img
+                  src="/Tavern1.png"
+                  style={{ width: "100%", backgroundColor: "#e0a26d", borderRadius: 10 }}
+                />
+              </Box>
+            </Stack>
             {data?.length > 0 ? (
               <>
-                <Typography variant="body2">Click the button bellow</Typography>
                 <SoftButton size="large" variant="gradient" color="primary" onClick={onSwap}>
-                  Swap
+                  Upgrade
                 </SoftButton>
               </>
             ) : (
-              <Typography variant="body2">You don&apos;t have any old NFTs</Typography>
+              <Typography variant="body2">You don&apos;t have any Genesis NFTs</Typography>
             )}
           </>
         )}

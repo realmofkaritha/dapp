@@ -33,6 +33,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
       easing: transitions.easing.sharp,
       duration: transitions.duration.shorter,
     }),
+    margin: 0,
 
     [breakpoints.up("xl")]: {
       boxShadow: transparentSidenav ? "none" : xxl,

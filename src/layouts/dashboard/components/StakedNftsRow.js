@@ -87,13 +87,13 @@ export default function StakedNftsRow() {
   }
 
   if (isError) {
-    return <span>Error loading walelt NFTs</span>;
+    return <span>Error loading walelt SFTs</span>;
   }
 
   return (
     <NftsRow
       nfts={data.nfts.map((n) => ({ ...n, reward: 10 }))}
-      title="Staked NFTs"
+      title="Staked SFTs"
       actionButtonTitle="Unstake {{n}}"
       nftActionButtonTitle="Select to unstake"
       selectedAction={onUnstake}

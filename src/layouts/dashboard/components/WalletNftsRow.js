@@ -64,13 +64,13 @@ export default function WalletNftsRow() {
   }
 
   if (isError) {
-    return <span>Error loading walelt NFTs</span>;
+    return <span>Error loading walelt SFTs</span>;
   }
 
   return (
     <NftsRow
       nfts={data}
-      title="NFTs in your wallet"
+      title="SFTs in your wallet"
       actionButtonTitle="Stake {{n}}"
       nftActionButtonTitle="Select to stake"
       selectedAction={onStake}

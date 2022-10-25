@@ -112,7 +112,7 @@ function Sidenav({ color, brand, routes, ...rest }) {
         </SoftTypography>
       );
     } else if (type === "divider") {
-      returnValue = <Divider key={key} />;
+      returnValue = <Divider key={key} color="secondary" sx={{ m: 1 }} />;
     }
 
     return returnValue;
@@ -120,13 +120,7 @@ function Sidenav({ color, brand, routes, ...rest }) {
 
   return (
     <SidenavRoot {...rest} variant="permanent" ownerState={{ transparentSidenav, miniSidenav }}>
-      <SoftBox
-        pt={3}
-        pb={3}
-        px={4}
-        textAlign="center"
-        sx={{ cursor: "pointer" }}
-      >
+      <SoftBox pt={3} pb={3} px={4} textAlign="center" sx={{ cursor: "pointer" }}>
         <SoftBox
           display={{ xs: "block", xl: "none" }}
           position="absolute"
@@ -156,17 +150,19 @@ function Sidenav({ color, brand, routes, ...rest }) {
       </SoftBox>
       <Divider />
       <List sx={{ flex: 1 }}>{renderRoutes}</List>
-      <SoftBox sx={{ justifyContent: "center", alignItems: "center", display: "flex" }}>
-        <SoftTypography variant="h6" color="light" sx={{ display: "inline" }}>
-          Made with <FavoriteIcon sx={{ display: "inline", color: "red" }} /> by{" "}
-        </SoftTypography>
-        <SoftBox
-          component="img"
-          src="./elb2.png"
-          alt="Elrond Lucky Birds"
-          sx={{ height: "3em", objectFit: "contain",ml:1 }}
-        />
-      </SoftBox>
+      <Link href="http://google.com" target="_blank" rel="noreferrer">
+        <SoftBox sx={{ justifyContent: "center", alignItems: "center", display: "flex" }}>
+          <SoftTypography variant="h6" color="light" sx={{ display: "inline" }}>
+            Made with <FavoriteIcon sx={{ display: "inline", color: "red" }} /> by{" "}
+          </SoftTypography>
+          <SoftBox
+            component="img"
+            src="./elb2.png"
+            alt="Elrond Lucky Birds"
+            sx={{ height: "3em", objectFit: "contain", ml: 1 }}
+          />
+        </SoftBox>
+      </Link>
     </SidenavRoot>
   );
 }

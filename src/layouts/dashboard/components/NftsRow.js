@@ -138,7 +138,7 @@ export default function NftsRow({
       ) : (
         <SoftBox sx={{ display: "flex", justifyContent: "center" }}>
           <SoftTypography variant="h2" mb={5} color="secondary" fontWeight="light">
-            No NFTs found!
+            No SFTs found!
           </SoftTypography>
         </SoftBox>
       )}
