@@ -38,7 +38,11 @@ export default function NftsRow({
   };
 
   const handleSelectAll = () => {
-    setSelectedNfts(nfts.map((n) => n.key));
+    if (selectedNfts.length === nfts.length) {
+      setSelectedNfts([]);
+    } else {
+      setSelectedNfts(nfts.map((n) => n.key));
+    }
   };
 
   const handleSelectedAction = async () => {
@@ -85,8 +89,8 @@ export default function NftsRow({
             {actionButtonTitle.replace("{{n}}", selectedNfts.length)}
           </SoftButton>
           {extraActionButtons?.() || null}
-          <SoftButton size="small" variant="gradient" onClick={handleSelectAll}>
-            Select All
+          <SoftButton size="small" onClick={handleSelectAll}>
+            {selectedNfts.length === nfts.length ? "Deselect All" : "Select All"}
           </SoftButton>
         </Stack>
       ) : null}
