@@ -41,11 +41,17 @@ import {
 import { useSoftUIController, setTransparentNavbar, setMiniSidenav } from "context";
 
 import { logout } from "@elrondnetwork/dapp-core/utils";
+import { useGetAccount } from "@elrondnetwork/dapp-core/hooks";
+import SoftButton from "components/SoftButton";
+import { Stack } from "@mui/system";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useSoftUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar } = controller;
+
+  const { address } = useGetAccount();
+  const shortAddress = `${address.slice(0, 6)}...${address.slice(address.length - 6)}`;
 
   useEffect(() => {
     // Setting the navbar type
@@ -96,11 +102,33 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 </Icon>
               </IconButton>
             </span>
-            <IconButton sx={navbarIconButton} size="small" onClick={() => logout("/sign-in")}>
-              <SoftTypography variant="button" fontWeight="medium" color={light ? "white" : "dark"}>
-                Sign out
-              </SoftTypography>
-            </IconButton>
+            <div>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <SoftTypography
+                  variant="body2"
+                  fontWeight="medium"
+                  color={light ? "white" : "dark"}
+                >
+                  {shortAddress}
+                </SoftTypography>
+
+                <SoftButton
+                  color="light"
+                  size="small"
+                  variant="outlined"
+                  onClick={() => logout("/sign-in")}
+                  sx={{ padding: 1 }}
+                >
+                  <SoftTypography
+                    variant="button"
+                    fontWeight="medium"
+                    color={light ? "white" : "dark"}
+                  >
+                    Sign out
+                  </SoftTypography>
+                </SoftButton>
+              </Stack>
+            </div>
           </SoftBox>
         )}
       </Toolbar>

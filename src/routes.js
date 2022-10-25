@@ -43,7 +43,7 @@ import Swap from "layouts/swap";
 
 import TwitterIcon from "@mui/icons-material/Twitter";
 import SvgIcon from "@mui/material/SvgIcon";
-import WalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import WalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import SwapHoriz from "@mui/icons-material/SwapHoriz";
 
 const routes = [
@@ -67,7 +67,7 @@ const routes = [
     noCollapse: true,
     authenticatedRoute: true,
   },
-  { type: "divider" },
+  { type: "divider", key: "divider" },
   {
     type: "collapse",
     name: "Discord",
@@ -89,7 +89,6 @@ const routes = [
       </SvgIcon>
     ),
     noCollapse: true,
-    authenticatedRoute: true,
   },
   {
     type: "collapse",
@@ -98,7 +97,6 @@ const routes = [
     href: "https://twitter.com/Karithaio",
     icon: <TwitterIcon />,
     noCollapse: true,
-    authenticatedRoute: true,
   },
 ];
 

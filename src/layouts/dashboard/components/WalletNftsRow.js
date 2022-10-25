@@ -64,7 +64,7 @@ export default function WalletNftsRow() {
   }
 
   if (isError) {
-    return <span>Error loading walelt SFTs</span>;
+    return <span>Error loading wallet SFTs</span>;
   }
 
   return (

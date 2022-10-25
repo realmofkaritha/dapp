@@ -22,10 +22,9 @@ function navbar(theme, ownerState) {
   const { borderRadius } = borders;
 
   return {
-    boxShadow: transparentNavbar || absolute ? "none" : navbarBoxShadow,
+    boxShadow: navbarBoxShadow,
     backdropFilter: transparentNavbar || absolute ? "none" : `saturate(200%) blur(${pxToRem(30)})`,
-    backgroundColor:
-      transparentNavbar || absolute ? `${transparent.main} !important` : rgba(white.main, 0.8),
+    backgroundColor: rgba(white.main, 0.8),
 
     color: () => {
       let color;
@@ -40,7 +39,6 @@ function navbar(theme, ownerState) {
 
       return color;
     },
-    top: absolute ? 0 : pxToRem(12),
     minHeight: pxToRem(75),
     display: "grid",
     alignItems: "center",
@@ -49,6 +47,7 @@ function navbar(theme, ownerState) {
     paddingBottom: pxToRem(8),
     paddingRight: absolute ? pxToRem(8) : 0,
     paddingLeft: absolute ? pxToRem(16) : 0,
+    marginBottom: "2rem",
 
     "& > *": {
       transition: transitions.create("all", {

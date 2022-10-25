@@ -35,12 +35,14 @@ const root = {
   textAlign: "center",
   textTransform: "uppercase",
   userSelect: "none",
-  backgroundSize: "150% !important",
-  backgroundPositionX: "25% !important",
-  transition: `all 150ms ease-in`,
+  backgroundSize: "300% 150% !important",
+  backgroundPositionX: "0% !important",
+  transition: `all 150ms ease-in, background-position-x 400ms ease-in-out`,
 
   "&:hover": {
     transform: "scale(1.02)",
+    backgroundPositionX: "100% !important",
+    transition: `all 150ms ease-in, background-position-x 400ms ease-in-out`,
   },
 
   "&:disabled": {

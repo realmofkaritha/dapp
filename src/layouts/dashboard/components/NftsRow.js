@@ -85,7 +85,7 @@ export default function NftsRow({
             {actionButtonTitle.replace("{{n}}", selectedNfts.length)}
           </SoftButton>
           {extraActionButtons?.() || null}
-          <SoftButton size="small" onClick={handleSelectAll}>
+          <SoftButton size="small" variant="gradient" onClick={handleSelectAll}>
             Select All
           </SoftButton>
         </Stack>
@@ -131,6 +131,12 @@ export default function NftsRow({
                 variant="outlined"
                 onClick={() => setShowRest(!showRest)}
                 label={showRest ? "Show Less" : "Show All"}
+                sx={({ palette }) => ({
+                  "&:hover": {
+                    color: "white !important",
+                    backgroundColor: `${palette.primary.main} !important`,
+                  },
+                })}
               />
             </Divider>
           ) : null}

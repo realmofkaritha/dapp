@@ -150,7 +150,7 @@ function Sidenav({ color, brand, routes, ...rest }) {
       </SoftBox>
       <Divider />
       <List sx={{ flex: 1 }}>{renderRoutes}</List>
-      <Link href="http://google.com" target="_blank" rel="noreferrer">
+      <Link href="https://linktr.ee/elrondluckybirds" target="_blank" rel="noreferrer">
         <SoftBox sx={{ justifyContent: "center", alignItems: "center", display: "flex" }}>
           <SoftTypography variant="h6" color="light" sx={{ display: "inline" }}>
             Made with <FavoriteIcon sx={{ display: "inline", color: "red" }} /> by{" "}

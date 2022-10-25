@@ -40,7 +40,7 @@ function DashboardLayout({ children }) {
   return (
     <SoftBox
       sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
-        p: 3,
+        px: 3,
         alignItems: "center",
         display: "flex",
         flexDirection: "column",

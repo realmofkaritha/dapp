@@ -87,7 +87,7 @@ export default function StakedNftsRow() {
   }
 
   if (isError) {
-    return <span>Error loading walelt SFTs</span>;
+    return <span>Error loading staked SFTs</span>;
   }
 
   return (
