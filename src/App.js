@@ -35,12 +35,12 @@ import routes from "routes";
 import { useSoftUIController, setMiniSidenav } from "context";
 
 import { AuthenticatedRoutesWrapper } from "@elrondnetwork/dapp-core/wrappers";
-import { TransactionsToastList } from "@elrondnetwork/dapp-core/UI/TransactionsToastList";
 import { SignTransactionsModals } from "@elrondnetwork/dapp-core/UI/SignTransactionsModals";
 // import { NotificationModal } from "@elrondnetwork/dapp-core/UI/NotificationModal";
 import SignIn from "layouts/authentication/sign-in";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TransactionsToastList } from "@elrondnetwork/dapp-core/UI";
 
 const queryClient = new QueryClient();
 

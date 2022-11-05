@@ -10,7 +10,7 @@
         "contractCrate": {
             "name": "kharita-sc-staking",
             "version": "0.0.0",
-            "git_version": "2627b68"
+            "git_version": "02002f3"
         },
         "framework": {
             "name": "elrond-wasm",
@@ -71,6 +71,12 @@
             "outputs": []
         },
         {
+            "name": "claimUnstake",
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
             "name": "claimReward",
             "mutability": "mutable",
             "inputs": [],
@@ -97,6 +103,22 @@
             "outputs": [
                 {
                     "type": "variadic<tuple<TokenIdentifier,u64>>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getPendingUnstake",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<tuple<u64,EsdtTokenPayment>>",
                     "multi_result": true
                 }
             ]
@@ -144,29 +166,6 @@
             "outputs": [
                 {
                     "type": "BigUint"
-                }
-            ]
-        },
-        {
-            "name": "getStakeTime",
-            "mutability": "readonly",
-            "inputs": [
-                {
-                    "name": "token_id",
-                    "type": "TokenIdentifier"
-                },
-                {
-                    "name": "nonce",
-                    "type": "u64"
-                },
-                {
-                    "name": "address",
-                    "type": "Address"
-                }
-            ],
-            "outputs": [
-                {
-                    "type": "u64"
                 }
             ]
         },
@@ -314,29 +313,6 @@
             "outputs": [
                 {
                     "type": "BigUint"
-                }
-            ]
-        },
-        {
-            "name": "getDaysSinceStake",
-            "mutability": "readonly",
-            "inputs": [
-                {
-                    "name": "token_id",
-                    "type": "TokenIdentifier"
-                },
-                {
-                    "name": "nonce",
-                    "type": "u64"
-                },
-                {
-                    "name": "user_address",
-                    "type": "Address"
-                }
-            ],
-            "outputs": [
-                {
-                    "type": "u64"
                 }
             ]
         },
