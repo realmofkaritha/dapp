@@ -12,10 +12,11 @@ export default function Nft({
   selected: controlledSelected,
   reward,
   onChange,
+  unstaked,
+  text,
 }) {
   const isControlled = controlledSelected !== undefined;
   const [ownSelected, setOwnSelected] = useState(defaultSelected);
-  reward
   const selected = isControlled ? controlledSelected : ownSelected;
 
   const onClick = () => {
@@ -38,10 +39,11 @@ export default function Nft({
         <SoftButton
           variant="gradient"
           fullWidth
-          color={selected ? "secondary" : "primary"}
+          color={unstaked || selected ? "secondary" : "primary"}
           onClick={onClick}
+          disabled={unstaked}
         >
-          {selected ? "Deselect" : buttonText}
+          {unstaked ? text : selected ? "Deselect" : buttonText}
         </SoftButton>
       </CardActions>
     </Card>

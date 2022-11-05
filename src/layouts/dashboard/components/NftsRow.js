@@ -114,6 +114,8 @@ export default function NftsRow({
                     selected={selectedNftsSet.has(n.key)}
                     onChange={(val) => handleSelect(val, n.key)}
                     reward={n.reward}
+                    unstaked={n.unstaked}
+                    text={n.text}
                   />
                 </Grid>
               ))}
@@ -129,6 +131,8 @@ export default function NftsRow({
                       selected={selectedNftsSet.has(n.key)}
                       onChange={(val) => handleSelect(val, n.key)}
                       reward={n.reward}
+                      unstaked={n.unstaked}
+                      text={n.text}
                     />
                   </Grid>
                 ))}

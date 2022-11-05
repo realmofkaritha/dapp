@@ -24,11 +24,20 @@ export default function StakedNftsRow() {
   const reward = data?.reward || "";
 
   const extraStakeButton = useCallback(() => {
-    return data?.hasReward ? (
-      <SoftButton size="small" onClick={onClaim}>
-        Claim {reward}
-      </SoftButton>
-    ) : null;
+    return (
+      <>
+        {data?.hasReward ? (
+          <SoftButton size="small" onClick={onClaim}>
+            Claim {reward} $REALM
+          </SoftButton>
+        ) : null}
+        {data?.canClaim > 0 ? (
+          <SoftButton size="small" onClick={onClaimSfts}>
+            Claim {data?.canClaim} pending SFTS
+          </SoftButton>
+        ) : null}
+      </>
+    );
   }, [reward]);
 
   const onUnstake = async (nfts) => {
@@ -89,6 +98,25 @@ export default function StakedNftsRow() {
     });
   };
 
+  const onClaimSfts = async () => {
+    const transaction = contract.methods
+      .claimUnstake()
+      .withGasLimit(5_000_000 + data?.canClaim * 500_000)
+      .withChainID(network.chainID);
+
+    const transactionFinal = transaction.buildTransaction();
+
+    await sendTransactions({
+      transactions: [transactionFinal],
+      transactionsDisplayInfo: {
+        processingMessage: "Claiming",
+        errorMessage: "An error has occured during the claim",
+        successMessage: "Claim successful",
+        transactionDuration: 10000,
+      },
+    });
+  };
+
   if (isLoading) {
     return <span>Loading</span>;
   }
@@ -96,7 +124,6 @@ export default function StakedNftsRow() {
   if (isError) {
     return <span>Error loading staked SFTs</span>;
   }
-
   return (
     <NftsRow
       nfts={data.nfts.map((n) => ({ ...n, reward: 10 }))}
