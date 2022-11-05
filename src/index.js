@@ -27,7 +27,7 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 
 root.render(
   <DappProvider
-    environment="devnet"
+    environment="mainnet"
     customNetworkConfig={{
       walletConnectV2ProjectId: process.env.REACT_APP_WC_V2,
     }}

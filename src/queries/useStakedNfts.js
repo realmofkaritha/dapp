@@ -69,7 +69,7 @@ const getStaked = async (chainID, apiAddress, provider, address) => {
     digits: 2,
   });
 
-  return { sfts, reward, hasReward: rewardBigNumber.gt(0) };
+  return { sfts, reward, hasReward: rewardBigNumber?.gt(0) || false };
 };
 
 const getPending = async (chainID, apiAddress, provider, address) => {
@@ -126,19 +126,24 @@ export default function useStakedNfts() {
   return useQuery(
     ["staked.nfts"],
     async () => {
-      const {
-        sfts: sftsStaked,
-        reward,
-        hasReward,
-      } = await getStaked(chainID, apiAddress, provider, address);
-      const { sfts: sftsPending, canClaim } = await getPending(
-        chainID,
-        apiAddress,
-        provider,
-        address
-      );
+      try {
+        const {
+          sfts: sftsStaked,
+          reward,
+          hasReward,
+        } = await getStaked(chainID, apiAddress, provider, address);
+        const { sfts: sftsPending, canClaim } = await getPending(
+          chainID,
+          apiAddress,
+          provider,
+          address
+        );
 
-      return { nfts: [...sftsStaked, ...sftsPending], reward, hasReward, canClaim };
+        return { nfts: [...sftsStaked, ...sftsPending], reward, hasReward, canClaim };
+      } catch (e) {
+        console.log(e);
+        return {};
+      }
     },
     {
       refetchInterval: 8 * 1000,

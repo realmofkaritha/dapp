@@ -126,7 +126,7 @@ export default function StakedNftsRow() {
   }
   return (
     <NftsRow
-      nfts={data.nfts.map((n) => ({ ...n, reward: 10 }))}
+      nfts={data?.nfts?.map((n) => ({ ...n, reward: 10 })) || []}
       title="Staked SFTs"
       actionButtonTitle="Unstake {{n}}"
       nftActionButtonTitle="Select to unstake"
