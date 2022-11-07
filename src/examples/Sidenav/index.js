@@ -157,9 +157,9 @@ function Sidenav({ color, brand, routes, ...rest }) {
           </SoftTypography>
           <SoftBox
             component="img"
-            src="./elb2.png"
+            src="./elb3.png"
             alt="Elrond Lucky Birds"
-            sx={{ height: "3em", objectFit: "contain", ml: 1 }}
+            sx={{ height: "2.5em", objectFit: "contain", ml: 1 }}
           />
         </SoftBox>
       </Link>

@@ -1,5 +1,9 @@
 // Soft UI Dashboard React examples
-import { useGetAccount, useGetNetworkConfig, useTrackTransactionStatus } from "@elrondnetwork/dapp-core/hooks";
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useTrackTransactionStatus,
+} from "@elrondnetwork/dapp-core/hooks";
 import { sendTransactions } from "@elrondnetwork/dapp-core/services";
 import { Address, TokenPayment } from "@elrondnetwork/erdjs/out";
 import { Box, Typography } from "@mui/material";
@@ -32,12 +36,12 @@ function Swap() {
       const [identifier] = n.split("||");
       const [a, b, nonce] = identifier.split("-");
 
-      return TokenPayment.nonFungible(`${a}-${b}`, nonce);
+      return TokenPayment.nonFungible(`${a}-${b}`, parseInt(nonce, 16));
     });
 
     const transaction = contract.methods
       .stakeSfts([])
-      .withGasLimit(5_000_000+payments.length*500_000)
+      .withGasLimit(5_000_000 + payments.length * 500_000)
       .withMultiESDTNFTTransfer(payments, new Address(address))
       .withChainID(network.chainID);
 
