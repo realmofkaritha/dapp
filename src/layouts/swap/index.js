@@ -40,7 +40,7 @@ function Swap() {
     });
 
     const transaction = contract.methods
-      .stakeSfts([])
+      .swap()
       .withGasLimit(5_000_000 + payments.length * 500_000)
       .withMultiESDTNFTTransfer(payments, new Address(address))
       .withChainID(network.chainID);
@@ -65,7 +65,7 @@ function Swap() {
       <Stack
         alignItems="center"
         justifyContent="center"
-        sx={{ height: "80vh", overflow: "hidden" }}
+        sx={{ }}
         spacing={2}
       >
         <Typography variant="h1" textAlign="center">
@@ -128,7 +128,6 @@ function Swap() {
             <NftsRow
               nfts={data}
               onChange={(nfts) => {
-                console.log(nfts);
                 setSelectedNfts(nfts);
               }}
             />

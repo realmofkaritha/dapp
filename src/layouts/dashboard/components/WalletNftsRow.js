@@ -41,7 +41,7 @@ export default function WalletNftsRow() {
 
     const transaction = contract.methods
       .stakeSfts([])
-      .withGasLimit(5_000_000+payments.length*500_000)
+      .withGasLimit(4_000_000+payments.length*2_000_000)
       .withMultiESDTNFTTransfer(payments, new Address(address))
       .withChainID(network.chainID);
 

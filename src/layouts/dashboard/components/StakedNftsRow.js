@@ -101,7 +101,7 @@ export default function StakedNftsRow() {
   const onClaimSfts = async () => {
     const transaction = contract.methods
       .claimUnstake()
-      .withGasLimit(5_000_000 + data?.canClaim * 500_000)
+      .withGasLimit(4_000_000 + data?.canClaim * 2_000_000)
       .withChainID(network.chainID);
 
     const transactionFinal = transaction.buildTransaction();

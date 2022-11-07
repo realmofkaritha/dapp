@@ -22,11 +22,11 @@ export default function NftsRow({
   const selectedNftsSet = useMemo(() => new Set(selectedNfts), [selectedNfts]);
   const firstRowNfts = useMemo(() => {
     return nfts.slice(0, firstRowNftsMax);
-  }, [firstRowNftsMax]);
+  }, [firstRowNftsMax,nfts]);
 
   const restNfts = useMemo(() => {
     return nfts.slice(firstRowNftsMax);
-  }, [firstRowNftsMax]);
+  }, [firstRowNftsMax,nfts]);
 
   const handleSelect = (val, name) => {
     const newSet = new Set(selectedNftsSet);

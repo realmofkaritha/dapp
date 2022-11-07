@@ -28,10 +28,21 @@ export default function Nft({
 
   return (
     <Card>
-      <CardMedia component="img" image={image} alt="nft image" sx={{ mb: 1 }} />
       <CardContent>
+        <img
+          src={image}
+          style={{
+            width: "100%",
+            borderRadius: "1rem",
+            marginTop: "0.5rem",
+          }}
+        />
         <Stack justifyContent="space-between">
-          <SoftTypography variant="h5">{name}</SoftTypography>
+          {/* <CardMedia component="img" image={image} alt="nft image" sx={{ mb: 1 }} /> */}
+
+          <SoftTypography variant="body2" sx={{ height: "2em", textAlign: "center" }}>
+            {name}
+          </SoftTypography>
           {/* {reward ? <SoftTypography variant="body2">Rewards: {reward} REALM</SoftTypography> : null} */}
         </Stack>
       </CardContent>
