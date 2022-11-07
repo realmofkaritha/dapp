@@ -67,6 +67,13 @@ const routes = [
     noCollapse: true,
     authenticatedRoute: true,
   },
+  {
+    type: "collapse-disabled",
+    name: "Coming Soon",
+    key: "coming-soon",
+    icon: <img src="/toucan.png" style={{ width: "32px", height: "32px" }} />,
+    noCollapse: true,
+  },
   { type: "divider", key: "divider" },
   {
     type: "collapse",

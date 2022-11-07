@@ -113,6 +113,10 @@ function Sidenav({ color, brand, routes, ...rest }) {
       );
     } else if (type === "divider") {
       returnValue = <Divider key={key} color="secondary" sx={{ m: 1 }} />;
+    } else if (type === "collapse-disabled") {
+      returnValue = (
+        <SidenavCollapse color={color} name={name} icon={icon} active={false} key={key} />
+      );
     }
 
     return returnValue;
@@ -163,6 +167,7 @@ function Sidenav({ color, brand, routes, ...rest }) {
           />
         </SoftBox>
       </Link>
+      <SoftTypography color="light" sx={{textAlign:"center"}} variant="caption">v1.0</SoftTypography>
     </SidenavRoot>
   );
 }
