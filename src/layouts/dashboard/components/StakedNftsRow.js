@@ -61,7 +61,7 @@ export default function StakedNftsRow() {
 
     const transaction = contract.methods
       .unstakeSfts(payments)
-      .withGasLimit(5_000_000 + payments.length * 500_000)
+      .withGasLimit(7_000_000 + payments.length * 3_000_000)
       .withChainID(network.chainID);
 
     const transactionFinal = transaction.buildTransaction();

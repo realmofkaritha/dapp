@@ -22,11 +22,11 @@ export default function NftsRow({
   const selectedNftsSet = useMemo(() => new Set(selectedNfts), [selectedNfts]);
   const firstRowNfts = useMemo(() => {
     return nfts.slice(0, firstRowNftsMax);
-  }, [firstRowNftsMax,nfts]);
+  }, [firstRowNftsMax, nfts]);
 
   const restNfts = useMemo(() => {
     return nfts.slice(firstRowNftsMax);
-  }, [firstRowNftsMax,nfts]);
+  }, [firstRowNftsMax, nfts]);
 
   const handleSelect = (val, name) => {
     const newSet = new Set(selectedNftsSet);
@@ -42,7 +42,7 @@ export default function NftsRow({
     if (selectedNfts.length === nfts.length) {
       setSelectedNfts([]);
     } else {
-      setSelectedNfts(nfts.map((n) => n.key));
+      setSelectedNfts(nfts.filter((n) => !n.unstaked).map((n) => n.key));
     }
   };
 
