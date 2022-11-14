@@ -17,7 +17,8 @@
         "react"
     ],
     "globals": {
-        "process": true
+        "process": true,
+        "Buffer": true
     },
     "rules": {
         "react/react-in-jsx-scope": "off",

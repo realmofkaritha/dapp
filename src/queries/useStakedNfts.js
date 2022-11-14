@@ -35,7 +35,7 @@ const getStaked = async (chainID, apiAddress, provider, address) => {
     .getAllUserStakedAndRewards([address])
     .withChainID(chainID)
     .buildQuery();
-  const queryResponse = await provider.queryContract(query);
+    const queryResponse = await provider.queryContract(query);
   const endpointDef = contract.getEndpoint("getAllUserStakedAndRewards");
   const { firstValue } = resultsParser.parseQueryResponse(queryResponse, endpointDef);
   const { field0: stakedNfts, field1: rewardBigNumber } = firstValue?.valueOf() || {
@@ -147,6 +147,7 @@ export default function useStakedNfts() {
     },
     {
       refetchInterval: 8 * 1000,
+      retryDelay: 1000
     }
   );
 }

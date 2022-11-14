@@ -5,7 +5,20 @@ import {
   useTrackTransactionStatus,
 } from "@elrondnetwork/dapp-core/hooks";
 import { sendTransactions } from "@elrondnetwork/dapp-core/services";
-import { Address, TokenPayment } from "@elrondnetwork/erdjs/out";
+import {
+  Address,
+  ContractFunction,
+  Interaction,
+  List,
+  ListType,
+  SmartContract,
+  TokenPayment,
+  TypedValue,
+  U16Type,
+  U16Value,
+  U32Type,
+  U32Value,
+} from "@elrondnetwork/erdjs";
 import { Box, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import SoftButton from "components/SoftButton";
@@ -15,9 +28,11 @@ import { useState } from "react";
 import contract from "contract/contract";
 import SwapHoriz from "@mui/icons-material/SwapHoriz";
 import NftsRow from "layouts/dashboard/components/NftsRow";
-
+import useStakedGenesisNfts from "queries/useStakedGenesisNfts";
+const u32list = new ListType(new U32Type());
 function Swap() {
   const { data, isLoading, refetch } = useAccountNfts(process.env.REACT_APP_OLD_COLLECTION);
+  const { data: dataGenesis, refetch: refetchGenesis, isSuccess } = useStakedGenesisNfts();
   const { address } = useGetAccount();
 
   const [selectedNfts, setSelectedNfts] = useState([]);
@@ -28,6 +43,7 @@ function Swap() {
     transactionId: sid,
     onSuccess: () => {
       refetch();
+      refetchGenesis();
     },
   });
 
@@ -41,7 +57,7 @@ function Swap() {
 
     const transaction = contract.methods
       .swap()
-      .withGasLimit(5_000_000 + payments.length * 500_000)
+      .withGasLimit(5_000_000 + payments.length * 2_000_000)
       .withMultiESDTNFTTransfer(payments, new Address(address))
       .withChainID(network.chainID);
 
@@ -59,15 +75,37 @@ function Swap() {
 
     setsid(sessionId);
   };
+  const unstake = async () => {
+    try {
+      const c = new SmartContract({
+        address: new Address("erd1qqqqqqqqqqqqqpgqh438d42h9ltlqgpmjxc3srxafnx383n5kagq6hynlu"),
+      });
+      const d = c.call({
+        func: new ContractFunction("unstakeNFT"),
+        args: dataGenesis?.map((d) => new U16Value(d)) || [],
+        gasLimit: 5_000_000 + 2_000_000 * dataGenesis.length,
+        chainID: network.chainID,
+      });
+
+      const { sessionId } = await sendTransactions({
+        transactions: [d],
+        transactionsDisplayInfo: {
+          processingMessage: "Swapping",
+          errorMessage: "An error has occured ",
+          successMessage: "Swap successful",
+          transactionDuration: 10000,
+        },
+      });
+
+      setsid(sessionId);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <DashboardLayout>
-      <Stack
-        alignItems="center"
-        justifyContent="center"
-        sx={{ }}
-        spacing={2}
-      >
+      <Stack alignItems="center" justifyContent="center" sx={{}} spacing={2}>
         <Typography variant="h1" textAlign="center">
           Upgrade Your Genesis
         </Typography>
@@ -112,6 +150,11 @@ function Swap() {
             />
           </Box>
         </Stack>
+        {isSuccess && dataGenesis.length > 0 ? (
+          <SoftButton size="large" variant="gradient" color="primary" onClick={unstake}>
+            Unstake Genesis
+          </SoftButton>
+        ) : null}
         {isLoading ? (
           "Loading"
         ) : data?.length > 0 ? (

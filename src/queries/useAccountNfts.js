@@ -34,6 +34,7 @@ export default function useAccountNfts(collection) {
     },
     {
       refetchInterval: 8 * 1000,
+      retryDelay: 1000
     }
   );
 }
