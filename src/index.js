@@ -30,6 +30,7 @@ root.render(
     environment="mainnet"
     customNetworkConfig={{
       walletConnectV2ProjectId: process.env.REACT_APP_WC_V2,
+      apiTimeout: 6000,
     }}
   >
     <BrowserRouter>
