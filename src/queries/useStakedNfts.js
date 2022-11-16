@@ -87,7 +87,7 @@ const getPending = async (chainID, apiAddress, provider, address) => {
     const sft = _sft.value.valueOf();
     const identifier = `${sft.token_identifier}-${padHex(sft.token_nonce.toString(16))}`;
     if (now - timestamp > unstakeTime) {
-      canClaim += sft.amount().toNumber();
+      canClaim += sft.amount.toNumber();
     }
 
     totals[identifier] = {
