@@ -35,7 +35,7 @@ const getStaked = async (chainID, apiAddress, provider, address) => {
     .getAllUserStakedAndRewards([address])
     .withChainID(chainID)
     .buildQuery();
-    const queryResponse = await provider.queryContract(query);
+  const queryResponse = await provider.queryContract(query);
   const endpointDef = contract.getEndpoint("getAllUserStakedAndRewards");
   const { firstValue } = resultsParser.parseQueryResponse(queryResponse, endpointDef);
   const { field0: stakedNfts, field1: rewardBigNumber } = firstValue?.valueOf() || {
@@ -118,11 +118,13 @@ const getPending = async (chainID, apiAddress, provider, address) => {
 
 export default function useStakedNfts() {
   const {
-    network: { apiAddress },
+    network: { apiAddress, apiTimeout },
     chainID,
   } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
-  const provider = new ProxyNetworkProvider(apiAddress);
+  const provider = new ProxyNetworkProvider(apiAddress, {
+    timeout: apiTimeout,
+  });
   return useQuery(
     ["staked.nfts"],
     async () => {
@@ -147,7 +149,7 @@ export default function useStakedNfts() {
     },
     {
       refetchInterval: 8 * 1000,
-      retryDelay: 1000
+      retryDelay: 1000,
     }
   );
 }

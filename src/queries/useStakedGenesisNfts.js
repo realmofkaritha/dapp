@@ -12,7 +12,7 @@ import {
 
 export default function useStakedGenesisNfts() {
   const {
-    network: { apiAddress },
+    network: { apiAddress, apiTimeout },
   } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
 
@@ -20,20 +20,18 @@ export default function useStakedGenesisNfts() {
     ["account.genesis.nfts"],
     async () => {
       try {
-        const provider = new ProxyNetworkProvider(apiAddress);
+        const provider = new ProxyNetworkProvider(apiAddress, {
+          timeout: apiTimeout,
+        });
         const query = new Query({
           address: new Address("erd1qqqqqqqqqqqqqpgqh438d42h9ltlqgpmjxc3srxafnx383n5kagq6hynlu"),
           func: new ContractFunction("getStakedNFTNonces"),
-          args: [
-            new AddressValue(
-              new Address(address)
-            ),
-          ],
+          args: [new AddressValue(new Address(address))],
         });
         const response = await provider.queryContract(query);
-        const noncesHex = [...chunk(Buffer.from(response.returnData[0], "base64").toString("hex"), 4)].map(
-          (n) => parseInt(n, 16)
-        );
+        const noncesHex = [
+          ...chunk(Buffer.from(response.returnData[0], "base64").toString("hex"), 4),
+        ].map((n) => parseInt(n, 16));
 
         return noncesHex || [];
       } catch (e) {
