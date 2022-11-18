@@ -28,7 +28,7 @@ import PageLayout from "examples/LayoutContainers/PageLayout";
 
 function BasicLayout({ title, description, children }) {
   return (
-    <PageLayout background="url('https://karitha.io/static/media/clouds-bg.5b1f7f0a.png')">
+    <PageLayout background="url('bg.png')">
       <Grid
         container
         spacing={3}
