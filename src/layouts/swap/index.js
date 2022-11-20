@@ -152,7 +152,7 @@ function Swap() {
         </Stack>
         {isSuccess && dataGenesis.length > 0 ? (
           <SoftButton size="large" variant="gradient" color="primary" onClick={unstake}>
-            Unstake Genesis
+            Unstake Genesis NFTs
           </SoftButton>
         ) : null}
         {isLoading ? (
@@ -176,7 +176,9 @@ function Swap() {
             />
           </>
         ) : (
-          <Typography variant="body2">You don&apos;t have any Genesis NFTs</Typography>
+          <Typography variant="body2">
+            You don&apos;t have any Genesis NFTs in your wallet.
+          </Typography>
         )}
       </Stack>
     </DashboardLayout>

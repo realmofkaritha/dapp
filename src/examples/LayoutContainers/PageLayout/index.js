@@ -38,7 +38,12 @@ function PageLayout({ background, children }) {
       height="100%"
       minHeight="100vh"
       bgColor={background}
-      sx={{ overflowX: "hidden", backgroundSize: 'cover', backgroundRepead: "no-repeat" }}
+      sx={{
+        overflowX: "hidden",
+        backgroundSize: "cover",
+        backgroundRepead: "no-repeat",
+        backgroundPosition: "center",
+      }}
     >
       {children}
     </SoftBox>

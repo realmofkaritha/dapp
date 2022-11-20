@@ -38,7 +38,7 @@ function SignIn() {
   }, [isLoggedIn]);
 
   return (
-    <BasicLayout title="Karitha" description="Login to access our DApp">
+    <BasicLayout title="Karitha" description="Login to access our dApp">
       <Stack spacing={1}>
         <UnsetWalletConnectLoginButton callbackRoute="/" isWalletConnectV2={true}>
           <SoftButton component="span" fullWidth color="primary">
