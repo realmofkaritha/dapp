@@ -63,7 +63,7 @@ const getStaked = async (chainID, apiAddress, provider, address) => {
   });
 
   const reward = formatAmount({
-    input: rewardBigNumber,
+    input: rewardBigNumber.toFixed(0),
     decimals: 18,
     showIsLessThanDecimalsLabel: true,
     digits: 2,
